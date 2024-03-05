@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @SuppressWarnings("all")
-class StreamTest {
+class StreamCreationTest {
 
     @Test
     void streamCreation() {
