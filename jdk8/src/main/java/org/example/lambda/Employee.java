@@ -1,10 +1,13 @@
 package org.example.lambda;
 
+import java.util.Objects;
+
 public class Employee {
 
     private String name;
     private int age;
     private double salary;
+    private Status status;
 
     public Employee() {
     }
@@ -13,6 +16,13 @@ public class Employee {
         this.name = name;
         this.age = age;
         this.salary = salary;
+    }
+
+    public Employee(String name, int age, double salary, Status status) {
+        this.name = name;
+        this.age = age;
+        this.salary = salary;
+        this.status = status;
     }
 
     public String getName() {
@@ -39,12 +49,40 @@ public class Employee {
         this.salary = salary;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return age == employee.age && Double.compare(salary, employee.salary) == 0 && Objects.equals(name, employee.name) && status == employee.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age, salary, status);
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
                 "name='" + name + '\'' +
                 ", age=" + age +
                 ", salary=" + salary +
+                ", status=" + status +
                 '}';
+    }
+
+    public enum Status {
+        FREE,
+        BUSY,
+        VACATION
     }
 }
