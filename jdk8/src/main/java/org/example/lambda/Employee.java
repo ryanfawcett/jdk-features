@@ -2,6 +2,7 @@ package org.example.lambda;
 
 import java.util.Objects;
 
+@SuppressWarnings("all")
 public class Employee {
 
     private String name;
