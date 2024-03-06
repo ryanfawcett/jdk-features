@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -77,7 +78,7 @@ class TerminationTest {
                 .reduce(0, (x, y) -> x + y);
         System.out.println("i = " + i);
     }
-    
+
     @Test
     void reduceNoIdentity() {
         Optional<Double> sum = employees.stream()
@@ -92,5 +93,34 @@ class TerminationTest {
                 .map(Employee::getName)
                 .collect(Collectors.toList());
         System.out.println("names = " + names);
+    }
+
+    // 需求：以员工状态对员工进行分组
+    @Test
+    void groupBy() {
+        Map<Employee.Status, List<Employee>> groupByStatus = employees.stream()
+                .collect(Collectors.groupingBy(Employee::getStatus));
+        System.out.println("groupByStatus = " + groupByStatus);
+    }
+
+    // 需求：先以员工状态进行非组，再以年龄进行分组
+    // 小于35岁的为青年
+    // 大于等于35岁，并且小于45岁的为中年
+    // 大于45岁的为老年
+    @Test
+    void groupByMulti() {
+        Map<Employee.Status, Map<String, List<Employee>>> multiGroupBy = employees.stream()
+                .collect(Collectors.groupingBy(Employee::getStatus, Collectors.groupingBy(e -> {
+                            Employee emp = (Employee) e;
+                            if (emp.getAge() < 35) {
+                                return "青年";
+                            } else if (emp.getAge() >= 35 && emp.getAge() < 45) {
+                                return "中年";
+                            } else {
+                                return "老年";
+                            }
+                        }))
+                );
+        System.out.println("multiGroupBy = " + multiGroupBy);
     }
 }
