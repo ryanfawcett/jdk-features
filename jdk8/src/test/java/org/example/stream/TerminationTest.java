@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Stream 的终止操作
@@ -67,5 +68,29 @@ class TerminationTest {
         Optional<Employee> maxSalaryEmp = employees.stream()
                 .max(Comparator.comparingDouble(Employee::getSalary));
         System.out.println("maxSalaryEmp = " + maxSalaryEmp.get());
+    }
+
+    @Test
+    void reduce() {
+        List<Integer> list = Arrays.asList(1, 2, 3, 4);
+        Integer i = list.stream()
+                .reduce(0, (x, y) -> x + y);
+        System.out.println("i = " + i);
+    }
+    
+    @Test
+    void reduceNoIdentity() {
+        Optional<Double> sum = employees.stream()
+                .map(Employee::getSalary)
+                .reduce(Double::sum);
+        System.out.println("sum = " + sum);
+    }
+
+    @Test
+    void collect() {
+        List<String> names = employees.stream()
+                .map(Employee::getName)
+                .collect(Collectors.toList());
+        System.out.println("names = " + names);
     }
 }
